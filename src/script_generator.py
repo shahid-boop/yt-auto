@@ -126,8 +126,12 @@ def generate(topic: str, cfg: dict[str, Any]) -> dict[str, Any]:
     n = max(5, min(9, int(content.get("line_count", 7))))
     prompt = _build_prompt(topic, cfg, n)
     provider = os.environ.get("LLM_PROVIDER", "openai").strip().lower()
-    raw = _call_gemini(prompt, cfg) if provider == "gemini" else _call_openai(prompt, cfg)
-    return _validate(_clean_json(raw), n, topic)
+    try:
+        raw = _call_gemini(prompt, cfg) if provider == "gemini" else _call_openai(prompt, cfg)
+        return _validate(_clean_json(raw), n, topic)
+    except Exception as exc:  # quota, network, bad JSON — system must still produce a video
+        print(f"[warn] LLM generation fail ({str(exc)[:160]}). Offline template use ho raha hai.")
+        return generate_offline(topic, cfg)
 
 
 def generate_offline(topic: str, cfg: dict[str, Any]) -> dict[str, Any]:
