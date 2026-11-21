@@ -1,59 +1,58 @@
-"""Upload a rendered MP4 to YouTube with the Data API v3 (OAuth refresh token)."""
+"""Upload video to YouTube using only `requests` (no Google client library).
+
+OAuth refresh -> access token, then a resumable upload to the Data API v3.
+"""
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
 from typing import Any
 
-from google.oauth2.credentials import Credentials
-from google.auth.transport.requests import Request
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
+import requests
 
 from .env_loader import load_env
 
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
-TOKEN_URI = "https://oauth2.googleapis.com/token"
+TOKEN_URL = "https://oauth2.googleapis.com/token"
+UPLOAD_URL = "https://www.googleapis.com/upload/youtube/v3/videos"
 
 
-def _credentials() -> Credentials:
-    load_env()
-    required = {
-        "GOOGLE_CLIENT_ID": os.environ.get("GOOGLE_CLIENT_ID"),
-        "GOOGLE_CLIENT_SECRET": os.environ.get("GOOGLE_CLIENT_SECRET"),
-        "GOOGLE_REFRESH_TOKEN": os.environ.get("GOOGLE_REFRESH_TOKEN"),
-    }
-    missing = [k for k, value in required.items() if not value]
-    if missing:
-        raise RuntimeError("Missing env vars: " + ", ".join(missing))
-
-    creds = Credentials(
-        token=None,
-        refresh_token=required["GOOGLE_REFRESH_TOKEN"],
-        client_id=required["GOOGLE_CLIENT_ID"],
-        client_secret=required["GOOGLE_CLIENT_SECRET"],
-        token_uri=TOKEN_URI,
-        scopes=SCOPES,
-    )
-    try:
-        creds.refresh(Request())
-    except Exception as exc:  # google.auth.exceptions.RefreshError
+def _required(name: str) -> str:
+    value = os.environ.get(name, "").strip()
+    if not value:
         raise RuntimeError(
-            "Refresh token expire ya revoke ho gaya. Google Cloud console me "
-            "OAuth consent screen ko 'In Production' par publish karein, phir "
-            "python -m src.auth_setup se naya token lein. "
-            f"Original error: {exc}"
-        ) from exc
-    return creds
+            f"{name} set nahi hai. secrets/.env ya GitHub Secrets me daalein."
+        )
+    return value
+
+
+def access_token() -> str:
+    load_env()
+    payload = {
+        "client_id": _required("GOOGLE_CLIENT_ID"),
+        "client_secret": _required("GOOGLE_CLIENT_SECRET"),
+        "refresh_token": _required("GOOGLE_REFRESH_TOKEN"),
+        "grant_type": "refresh_token",
+    }
+    r = requests.post(TOKEN_URL, data=payload, timeout=60)
+    if r.status_code != 200:
+        raise RuntimeError(
+            "Refresh token fail (expired/revoke ya galat credentials). "
+            f"Production publishing check karein. HTTP {r.status_code}: {r.text[:400]}"
+        )
+    token = r.json().get("access_token")
+    if not token:
+        raise RuntimeError(f"Access token nahi mila: {r.text[:400]}")
+    return token
 
 
 def upload(path: Path, script: dict[str, Any], cfg: dict[str, Any]) -> str:
-    youtube = build("youtube", "v3", credentials=_credentials(), cache_discovery=False)
+    token = access_token()
     channel = cfg["channel"]
     tags = list(script.get("tags", [])) + channel.get("default_tags", [])
     tags = list(dict.fromkeys(tags))[:20]
 
-    body = {
+    metadata = {
         "snippet": {
             "title": script["title"][:100],
             "description": script["description"],
@@ -68,8 +67,34 @@ def upload(path: Path, script: dict[str, Any], cfg: dict[str, Any]) -> str:
         },
     }
 
-    media = MediaFileUpload(str(path), mimetype="video/mp4", resumable=True)
-    request = youtube.videos().insert(part="snippet,status", body=body, media=media)
-    response = request.execute()
-    video_id = response.get("id", "")
-    return f"https://www.youtube.com/watch?v={video_id}" if video_id else str(response)
+    size = path.stat().st_size
+    init_headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json; charset=UTF-8",
+        "X-Upload-Content-Type": "video/mp4",
+        "X-Upload-Content-Length": str(size),
+    }
+    init = requests.post(
+        UPLOAD_URL,
+        params={"part": "snippet,status", "uploadType": "resumable"},
+        headers=init_headers,
+        data=json.dumps(metadata),
+        timeout=60,
+    )
+    if init.status_code not in (200, 201) or "Location" not in init.headers:
+        raise RuntimeError(
+            f"Resumable session fail HTTP {init.status_code}: {init.text[:600]}"
+        )
+
+    with path.open("rb") as fh:
+        result = requests.put(
+            init.headers["Location"],
+            headers={"Content-Type": "video/mp4", "Content-Length": str(size)},
+            data=fh,
+            timeout=600,
+        )
+    if result.status_code not in (200, 201):
+        raise RuntimeError(f"Video upload fail HTTP {result.status_code}: {result.text[:600]}")
+
+    video_id = result.json().get("id", "")
+    return f"https://www.youtube.com/watch?v={video_id}" if video_id else str(result.json())
