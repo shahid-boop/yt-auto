@@ -1,0 +1,57 @@
+# ============================================================
+#  yt-auto/config.yaml  -  sab settings yahin badlein
+# ============================================================
+
+channel:
+  name: "Mind Secrets Urdu"   # apne channel ke naam se badlein
+  default_language: "ur"
+  category_id: "27"          # 22=People & Blogs, 27=Education, 28=Science & Tech
+  privacy_status: "unlisted" # pehle 2-3 review ke liye, phir "public" kar dein
+  made_for_kids: false
+  default_tags:
+    - "shorts"
+    - "psychology"
+    - "body language"
+    - "human behavior"
+    - "urdu"
+    - "hindi"
+    - "mind"
+    - "facts"
+
+content:
+  # --- VIRAL NICHE: Psychology / insaan ki soch ---
+  niche: "Insaan ki soch, body language aur psychology ke chhote raaz, Roman Urdu me"
+  audience: "Urdu/Hindi bolne wale, 16-35 saal ke log"
+  tone: "curious, thoda surprising, aur bilkul simple"
+  video_seconds: 45
+  line_count: 7              # kitni baat / kitne slides (5-9)
+  voiceover_language: "Urdu script (voiceover ke liye)"
+  slide_text_language: "Roman Urdu, chhoti lines (max 8 words)"
+  cta: "Agle video ke liye subscribe kar do"
+
+tts:
+  # ur-PK-AsadNeural | ur-PK-UzmaNeural | ur-IN-SalmanNeural | hi-IN-SwaraNeural | en-US-AriaNeural
+  voice: "ur-PK-AsadNeural"
+  rate: "+0%"
+  volume: "+0%"
+
+visual:
+  width: 1280
+  height: 720
+  fps: 24
+  background:
+    - "#0f172a"
+    - "#1e3a8a"
+  accent: "#38bdf8"
+  text_color: "#ffffff"
+  kicker: "DAILY LEARNING"
+  font_candidates:
+    - "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+    - "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+    - "/system/fonts/Roboto-Bold.ttf"
+    - "/system/fonts/NotoSans-Bold.ttf"
+    - "/system/fonts/DroidSans.ttf"
+
+openai:
+  model: "gpt-4o-mini"
+  base_url: "https://api.openai.com/v1"   # compatible API ho to yahan badlein
