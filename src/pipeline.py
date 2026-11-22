@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from src import build_video, script_generator, visuals, voiceover  # noqa: E402
+from src import build_video, script_generator, thumbnail, visuals, voiceover  # noqa: E402
 
 DATA = ROOT / "data"
 OUT = ROOT / "out"
@@ -92,15 +92,37 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         )
 
     print("[5/6] Rendering video...")
+    print("[5/6] Thumbnail + video...")
     video = build_video.build(segments, cfg, OUT / f"video_{stamp}.mp4", work)
+    thumb = thumbnail.make_thumbnail(script["title"], cfg, OUT / f"thumb_{stamp}.png")
+    try:
+        video = thumbnail.embed_cover(video, thumb)
+    except Exception as exc:  # noqa: BLE001
+        print(f"[warn] Thumbnail MP4 me embed nahi hua: {str(exc)[:160]}")
     size_mb = video.stat().st_size / (1024 * 1024)
     print(f"       {video} ({size_mb:.1f} MB)")
+    print(f"       thumb: {thumb}")
+
+    # Phone ke Download folder me bhi copy karein (Termux par)
+    download_copy = ""
+    download_dir = Path("/storage/emulated/0/Download/YouTubeAuto")
+    try:
+        if download_dir.parent.exists():
+            download_dir.mkdir(parents=True, exist_ok=True)
+            for item in (video, thumb):
+                shutil.copy2(item, download_dir / item.name)
+            download_copy = str(download_dir / video.name)
+            print(f"       Download: {download_copy}")
+    except Exception as exc:  # noqa: BLE001
+        print(f"[warn] Download folder me copy nahi hua: {str(exc)[:160]}")
 
     result: dict[str, Any] = {
         "time": stamp,
         "topic": topic,
         "title": script["title"],
         "video": str(video),
+        "thumbnail": str(thumb),
+        "download_copy": download_copy,
         "size_mb": round(size_mb, 2),
         "uploaded": False,
     }

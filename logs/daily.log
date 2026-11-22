@@ -18,3 +18,50 @@
   "uploaded": false
 }
 DONE Sun Nov 22 13:26:31 PKT 2026
+===== Sun Nov 22 13:29:22 PKT 2026 =====
+[1/6] Topic: Kyun koi aapke saath achanak cold ho jata hai
+[warn] LLM generation fail (429 Client Error: Too Many Requests for url: https://api.openai.com/v1/chat/completions). Offline template use ho raha hai.
+[2/6] Title: Kyun koi aapke saath achanak cold ho jata hai | Shorts
+[3/6] Voiceover (7 lines)...
+[4/6] Slides...
+[5/6] Rendering video...
+       /data/data/com.termux/files/home/yt-auto/out/video_20261122_082926.mp4 (0.3 MB)
+       Download: /storage/emulated/0/Download/YouTubeAuto/video_20261122_082926.mp4
+[6/6] Upload skip (--upload nahi diya).
+
+=== SUMMARY ===
+{
+  "time": "20261122_082926",
+  "topic": "Kyun koi aapke saath achanak cold ho jata hai",
+  "title": "Kyun koi aapke saath achanak cold ho jata hai | Shorts",
+  "video": "/data/data/com.termux/files/home/yt-auto/out/video_20261122_082926.mp4",
+  "download_copy": "/storage/emulated/0/Download/YouTubeAuto/video_20261122_082926.mp4",
+  "size_mb": 0.3,
+  "uploaded": false
+}
+DONE Sun Nov 22 13:29:56 PKT 2026
+===== Sun Nov 22 13:32:39 PKT 2026 =====
+[1/6] Topic: Aapko control karne wale log kaise pahchanein
+[warn] LLM generation fail (429 Client Error: Too Many Requests for url: https://api.openai.com/v1/chat/completions). Offline template use ho raha hai.
+[2/6] Title: Aapko control karne wale log kaise pahchanein | Shorts
+[3/6] Voiceover (7 lines)...
+[4/6] Slides...
+[5/6] Rendering video...
+[5/6] Thumbnail + video...
+       /data/data/com.termux/files/home/yt-auto/out/video_20261122_083242.mp4 (0.4 MB)
+       thumb: /data/data/com.termux/files/home/yt-auto/out/thumb_20261122_083242.png
+       Download: /storage/emulated/0/Download/YouTubeAuto/video_20261122_083242.mp4
+[6/6] Upload skip (--upload nahi diya).
+
+=== SUMMARY ===
+{
+  "time": "20261122_083242",
+  "topic": "Aapko control karne wale log kaise pahchanein",
+  "title": "Aapko control karne wale log kaise pahchanein | Shorts",
+  "video": "/data/data/com.termux/files/home/yt-auto/out/video_20261122_083242.mp4",
+  "thumbnail": "/data/data/com.termux/files/home/yt-auto/out/thumb_20261122_083242.png",
+  "download_copy": "/storage/emulated/0/Download/YouTubeAuto/video_20261122_083242.mp4",
+  "size_mb": 0.36,
+  "uploaded": false
+}
+DONE Sun Nov 22 13:33:08 PKT 2026

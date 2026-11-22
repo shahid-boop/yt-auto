@@ -22,5 +22,24 @@
     "video": "/data/data/com.termux/files/home/yt-auto/out/video_20261122_082604.mp4",
     "size_mb": 0.32,
     "uploaded": false
+  },
+  {
+    "time": "20261122_082926",
+    "topic": "Kyun koi aapke saath achanak cold ho jata hai",
+    "title": "Kyun koi aapke saath achanak cold ho jata hai | Shorts",
+    "video": "/data/data/com.termux/files/home/yt-auto/out/video_20261122_082926.mp4",
+    "download_copy": "/storage/emulated/0/Download/YouTubeAuto/video_20261122_082926.mp4",
+    "size_mb": 0.3,
+    "uploaded": false
+  },
+  {
+    "time": "20261122_083242",
+    "topic": "Aapko control karne wale log kaise pahchanein",
+    "title": "Aapko control karne wale log kaise pahchanein | Shorts",
+    "video": "/data/data/com.termux/files/home/yt-auto/out/video_20261122_083242.mp4",
+    "thumbnail": "/data/data/com.termux/files/home/yt-auto/out/thumb_20261122_083242.png",
+    "download_copy": "/storage/emulated/0/Download/YouTubeAuto/video_20261122_083242.mp4",
+    "size_mb": 0.36,
+    "uploaded": false
   }
 ]

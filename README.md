@@ -18,6 +18,8 @@ nohup ./daily_local.sh >/dev/null 2>&1 &
 ```
 
 - Videos: `~/yt-auto/out/`
+- **Phone Download folder:** `/storage/emulated/0/Download/YouTubeAuto/` (video + thumbnail PNG dono)
+- Har video ke saath 1280x720 thumbnail banti hai aur MP4 me cover art ke tor par embed hoti hai
 - Log: `~/yt-auto/logs/daily.log`
 - Rokne ke liye: `pkill -f daily_local.sh`
 
