@@ -1,8 +1,8 @@
-name: Daily YouTube Video
+name: Daily Video (no upload)
 
 on:
   schedule:
-    # GitHub cron UTC me hota hai. 01:30 UTC = 06:30 Pakistan.
+    # 01:30 UTC = 06:30 PKT
     - cron: "30 1 * * *"
   workflow_dispatch:
 
@@ -10,15 +10,13 @@ permissions:
   contents: write
 
 jobs:
-  build-and-upload:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
@@ -28,13 +26,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Build and upload video
+      - name: Generate video
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-        run: python -m src.pipeline --upload
+        run: python -m src.pipeline
+
+      - name: Save video as artifact (download karein)
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-${{ github.run_number }}
+          path: out/*.mp4
+          retention-days: 30
 
       - name: Save history
         continue-on-error: true

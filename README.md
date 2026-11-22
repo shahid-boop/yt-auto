@@ -1,6 +1,32 @@
 # yt-auto — roz ka automatic YouTube video
 
-Har din ek short faceless video banata hai (script → Urdu voiceover → slides → MP4) aur YouTube pe upload karta hai.
+Har din ek short faceless video banata hai (script → Urdu voiceover → slides → MP4).
+
+## ⚠️ Abhi mode: MANUAL UPLOAD (aap upload karte hain)
+
+Upload ke liye Google OAuth setup abhi pending hai — isliye system **sirf video banata hai**, upload nahi karta. Aap bas `out/` folder se video utha kar YouTube Studio me upload kar dein.
+
+### Abhi video chahiye?
+```bash
+cd ~/yt-auto && ./daily_local.sh --now
+```
+
+### Roz apne aap 06:30 par video banayein
+```bash
+cd ~/yt-auto
+nohup ./daily_local.sh >/dev/null 2>&1 &
+```
+
+- Videos: `~/yt-auto/out/`
+- Log: `~/yt-auto/logs/daily.log`
+- Rokne ke liye: `pkill -f daily_local.sh`
+
+### Baad me auto-upload chalana ho
+Google OAuth se refresh token milte hi `.env` me daalein aur:
+```bash
+python -m src.pipeline --upload
+```
+Ya GitHub Actions wala workflow（`--upload` wala）dobara enable kar dein.
 
 ## Channel (verify ho gaya)
 

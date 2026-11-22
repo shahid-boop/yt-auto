@@ -1,0 +1,20 @@
+===== Sun Nov 22 13:25:59 PKT 2026 =====
+[1/6] Topic: Ek hi baat baar baar kehne wale ki psychology
+[warn] LLM generation fail (429 Client Error: Too Many Requests for url: https://api.openai.com/v1/chat/completions). Offline template use ho raha hai.
+[2/6] Title: Ek hi baat baar baar kehne wale ki psychology | Shorts
+[3/6] Voiceover (7 lines)...
+[4/6] Slides...
+[5/6] Rendering video...
+       /data/data/com.termux/files/home/yt-auto/out/video_20261122_082604.mp4 (0.3 MB)
+[6/6] Upload skip (--upload nahi diya).
+
+=== SUMMARY ===
+{
+  "time": "20261122_082604",
+  "topic": "Ek hi baat baar baar kehne wale ki psychology",
+  "title": "Ek hi baat baar baar kehne wale ki psychology | Shorts",
+  "video": "/data/data/com.termux/files/home/yt-auto/out/video_20261122_082604.mp4",
+  "size_mb": 0.32,
+  "uploaded": false
+}
+DONE Sun Nov 22 13:26:31 PKT 2026

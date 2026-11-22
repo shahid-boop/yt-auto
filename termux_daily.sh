@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 # Termux me roz 06:30 (local time) video banayega aur upload karega.
 # chalane ke liye: nohup ./termux_daily.sh >/dev/null 2>&1 &
 cd "$(dirname "$0")" || exit 1

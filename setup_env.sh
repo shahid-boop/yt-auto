@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 # Secrets file banayein aur edit karein
 cd "$(dirname "$0")" || exit 1
 mkdir -p secrets

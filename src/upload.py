@@ -28,6 +28,10 @@ def _required(name: str) -> str:
 
 def access_token() -> str:
     load_env()
+    # Short-lived token from OAuth Playground (1 hour) — useful for a quick test.
+    direct = os.environ.get("GOOGLE_ACCESS_TOKEN", "").strip()
+    if direct:
+        return direct
     payload = {
         "client_id": _required("GOOGLE_CLIENT_ID"),
         "client_secret": _required("GOOGLE_CLIENT_SECRET"),
