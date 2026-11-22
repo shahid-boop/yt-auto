@@ -41,5 +41,15 @@
     "download_copy": "/storage/emulated/0/Download/YouTubeAuto/video_20261122_083242.mp4",
     "size_mb": 0.36,
     "uploaded": false
+  },
+  {
+    "time": "20261122_163754",
+    "topic": "Jab koi aapki baat beech me kaat de",
+    "title": "Jab koi aapki baat beech me kaat de | Shorts",
+    "video": "/data/data/com.termux/files/home/yt-auto/out/video_20261122_163754.mp4",
+    "thumbnail": "/data/data/com.termux/files/home/yt-auto/out/thumb_20261122_163754.png",
+    "download_copy": "/storage/emulated/0/Download/YouTubeAuto/video_20261122_163754.mp4",
+    "size_mb": 0.47,
+    "uploaded": false
   }
 ]

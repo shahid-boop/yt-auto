@@ -46,7 +46,7 @@ Write one complete short video. Return ONLY this JSON shape:
 }}
 
 STRICT RULES:
-- "voiceover" lines MUST be in {content['voiceover_language']}. Natural spoken style.
+- "voiceover" lines MUST be in Pakistani Urdu, written in Urdu script, with everyday Pakistani vocabulary (جیسے: بالکل، زیادہ، پرسکون، ضرور، سمجھیں، بس، مگر). Avoid formal Hindi/Indian words. Natural conversational spoken style.
 - "slides" lines MUST be in {content['slide_text_language']}, maximum 8 words each.
 - Exactly {n} voiceover lines and exactly {n} slides, in the same order.
 - Line 1 = curiosity-gap hook like "Kya aap ne kabhi notice kiya..." or "Log yeh baat aapko kabhi nahi batayenge...".
@@ -137,26 +137,27 @@ def generate(topic: str, cfg: dict[str, Any]) -> dict[str, Any]:
 def generate_offline(topic: str, cfg: dict[str, Any]) -> dict[str, Any]:
     """No-API fallback. Useful for a first local test."""
     n = max(5, min(9, int(cfg["content"].get("line_count", 7))))
+    # Urdu script me — Urdu TTS voice ko yahi natural lagta hai.
     hooks = [
-        f"Kya aap jaante hain ke {topic} itna important kyun hai?",
-        "Aaj main aapko iska asaan tarike se samjhata hoon.",
-        "Sabse pehle yeh samajh lijiye ke yeh kya karta hai.",
-        "Iska fayda yeh hai ke aapka time bachta hai.",
-        "Lekin ek common galti jo log karte hain, woh hai jaldi chhod dena.",
-        "In chhote steps ko aaj hi try kar ke dekhein.",
-        cfg["content"]["cta"],
+        "کیا آپ نے کبھی محسوس کیا کہ کوئی آپ کی بات کاٹ کر بول اٹھتا ہے؟",
+        "آج ہم بالکل سادہ طریقے سے یہ سمجھیں گے۔",
+        "سب سے پہلے یہ جان لیں کہ یہ کوئی بے ادبی نہیں، بس ایک عادت ہے۔",
+        "لیکن اصل بات یہ ہے کہ ایسے لوگ اپنی بات کو زیادہ اہم سمجھتے ہیں۔",
+        "آپ کو بس پرسکون رہ کر اپنی بات مکمل کرنی ہے۔",
+        "یہ ایک چھوٹا سا قدم ہے، مگر اثر بڑا ہوتا ہے۔",
+        "اگلے ویڈیو کے لیے ضرور سبسکرائب کر دیں۔",
     ]
     slides = [
-        "Kya yeh aap ke kaam ka hai?",
+        "Kya aap ne socha?",
         "Aaj samajhte hain",
-        "Pehle yeh samjho",
-        "Fayda: time bachega",
-        "Galti mat karein",
-        "Aaj hi try karein",
+        "Ye koi badtameezi nahi",
+        "Asli baat ye hai",
+        "Perskoun rahein",
+        "Ek chhota qadam",
         "Subscribe karein",
     ]
     while len(hooks) < n:
-        hooks.insert(-1, "Yeh tip aap ke liye kaam ki sabit hogi.")
+        hooks.insert(-1, "یہ بات آپ کے کام کی ضرور ثابت ہوگی۔")
         slides.insert(-1, "Ek aur tip")
     return {
         "title": f"{topic[:52]} | Shorts",

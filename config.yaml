@@ -25,14 +25,14 @@ content:
   tone: "curious, thoda surprising, aur bilkul simple"
   video_seconds: 45
   line_count: 7              # kitni baat / kitne slides (5-9)
-  voiceover_language: "Urdu script (voiceover ke liye)"
+  voiceover_language: "Pakistani Urdu, Urdu script, conversational"
   slide_text_language: "Roman Urdu, chhoti lines (max 8 words)"
   cta: "Agle video ke liye subscribe kar do"
 
 tts:
   # ur-PK-AsadNeural | ur-PK-UzmaNeural | ur-IN-SalmanNeural | hi-IN-SwaraNeural | en-US-AriaNeural
   voice: "ur-PK-AsadNeural"
-  rate: "+0%"
+  rate: "-3%"       # thoda slow = zyada natural
   volume: "+0%"
 
 visual:
